@@ -430,6 +430,76 @@ input, select {
   color: inherit;
 }
 
+.espacio-inferior {
+  margin-bottom: 22px;
+}
+
+.grafico-semana {
+  display: flex;
+  gap: 8px;
+  align-items: end;
+  height: 240px;
+  padding-top: 22px;
+}
+
+.dia-grafico {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #60748d;
+}
+
+.dia-grafico > span:first-child {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.zona-barra {
+  height: 170px;
+  width: 100%;
+  max-width: 65px;
+  background: #edf5ff;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: end;
+  overflow: hidden;
+}
+
+.barra-agua {
+  width: 100%;
+  background: #56a8f4;
+  border-radius: 8px 8px 0 0;
+  min-height: 0;
+}
+
+.dia-elegido .barra-agua {
+  background: #116ac2;
+}
+
+.dia-grafico small {
+  text-transform: capitalize;
+}
+
+.filtro-fecha {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filtro-fecha input {
+  width: auto;
+}
+
+.filtro-fecha strong {
+  margin-left: auto;
+}
+
 .pantalla-ingreso {
   min-height: 100vh;
   display: grid;
