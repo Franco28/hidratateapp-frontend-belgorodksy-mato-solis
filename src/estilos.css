@@ -360,6 +360,14 @@ input, select {
   background: #0e63b5;
 }
 
+.boton-eliminar {
+  border: 0;
+  background: #ffeaf0;
+  color: #b42e50;
+  padding: 9px 13px;
+  border-radius: 8px;
+}
+
 .lista-consumos {
   padding: 0;
   margin: 15px 0 0;

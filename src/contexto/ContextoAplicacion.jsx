@@ -95,6 +95,18 @@ export function ProveedorAplicacion({ children }) {
     }
   }
 
+  function eliminarConsumo(id) {
+    const consumo = datos.consumos.find((item) => item.id === id);
+    if (!usuarioActual || !consumo || consumo.idUsuario !== usuarioActual.id) {
+      throw new Error("No se encontró el consumo.");
+    }
+    setDatos((anterior) => ({
+      ...anterior,
+      consumos: anterior.consumos.filter((item) => item.id !== id),
+    }));
+    setAviso("Eliminaste un consumo.");
+  }
+
   return (
     <ContextoAplicacion.Provider
       value={{
@@ -103,6 +115,7 @@ export function ProveedorAplicacion({ children }) {
         ingresar,
         salir,
         agregarConsumo,
+        eliminarConsumo,
         aviso,
         setAviso,
         errorGuardado,
