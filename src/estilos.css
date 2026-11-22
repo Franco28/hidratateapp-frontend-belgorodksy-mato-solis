@@ -184,6 +184,13 @@ p {
   letter-spacing: 2px;
 }
 
+.fecha-actual {
+  background: #fff;
+  border-radius: 20px;
+  padding: 10px 15px;
+  color: #526783;
+}
+
 .cuadricula-inicio {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(310px, 1fr);
@@ -207,6 +214,68 @@ p {
 
 .tarjeta > p {
   margin-bottom: 20px;
+}
+
+.tarjeta-progreso {
+  display: grid;
+  justify-items: center;
+}
+
+.tarjeta-progreso h2 {
+  justify-self: start;
+}
+
+.circulo-progreso {
+  width: 265px;
+  height: 265px;
+  border-radius: 50%;
+  background: conic-gradient(#1885ef var(--progreso), #e9f1fc 0);
+  display: grid;
+  place-items: center;
+  margin: 10px 0 24px;
+}
+
+.centro-circulo {
+  background: white;
+  border-radius: 50%;
+  width: 225px;
+  height: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.icono-agua {
+  width: 53px;
+  height: 53px;
+  border-radius: 12px;
+}
+
+.centro-circulo strong {
+  font-size: 27px;
+  color: #0d2753;
+}
+
+.centro-circulo small {
+  color: #68809e;
+}
+
+.centro-circulo b {
+  color: #1976d2;
+  font-size: 21px;
+}
+
+.texto-centrado {
+  text-align: center;
+  margin: 0 !important;
+}
+
+.resumen-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
 }
 
 .tarjeta-resumen {
@@ -526,12 +595,30 @@ h1 {
     align-items: start;
   }
 
+.fecha-actual {
+    display: none;
+  }
+
 .tarjeta {
     padding: 17px;
   }
 
+.circulo-progreso {
+    height: 235px;
+    width: 235px;
+  }
+
+.centro-circulo {
+    height: 195px;
+    width: 195px;
+  }
+
 .botones-cantidad {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+.resumen-doble {
+    grid-template-columns: 1fr 1fr;
   }
 
 .pantalla-ingreso {
