@@ -4,6 +4,7 @@ import { Menu } from "./componentes/Menu.jsx";
 import { Ingreso } from "./paginas/Ingreso.jsx";
 import { Inicio } from "./paginas/Inicio.jsx";
 import { Historial } from "./paginas/Historial.jsx";
+import { Configuracion } from "./paginas/Configuracion.jsx";
 
 function RutaPrivada({ children }) {
   const { usuarioActual } = usarAplicacion();
@@ -19,6 +20,7 @@ export function Aplicacion() {
         <Route element={<RutaPrivada><Menu /></RutaPrivada>}>
           <Route index element={<Inicio />} />
           <Route path="historial" element={<Historial />} />
+          <Route path="configuracion" element={<Configuracion />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

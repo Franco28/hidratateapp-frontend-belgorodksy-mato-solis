@@ -41,3 +41,23 @@ export function mostrarHora(fecha) {
     minute: "2-digit",
   });
 }
+
+export function validarMeta(meta) {
+  if (
+    !Number.isInteger(meta) ||
+    meta < 250 ||
+    meta > 10000 ||
+    meta % 250 !== 0
+  ) {
+    throw new Error("La meta debe estar entre 250 y 10000 ml, de a 250 ml.");
+  }
+  return meta;
+}
+
+export function validarNombre(nombre) {
+  const texto = String(nombre).trim();
+  if (texto.length < 2 || texto.length > 60) {
+    throw new Error("El nombre debe tener entre 2 y 60 caracteres.");
+  }
+  return texto;
+}

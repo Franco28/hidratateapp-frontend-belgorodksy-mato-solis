@@ -26,6 +26,9 @@ export function Menu() {
           <NavLink to="/historial" className={({ isActive }) => isActive ? "enlace-menu seleccionado" : "enlace-menu"}>
             Historial
           </NavLink>
+          <NavLink to="/configuracion" className={({ isActive }) => isActive ? "enlace-menu seleccionado" : "enlace-menu"}>
+            Configuración
+          </NavLink>
         </nav>
         <div className="pie-menu">
           <strong>{usuarioActual.nombre}</strong>

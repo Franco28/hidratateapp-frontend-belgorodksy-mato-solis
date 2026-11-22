@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { CLAVE_DATOS, CLAVE_SESION, datosIniciales } from "../datos/datosIniciales.js";
-import { fechaLocal, totalDelDia, validarCantidad } from "../utilidades/funciones.js";
+import { fechaLocal, totalDelDia, validarCantidad, validarMeta, validarNombre } from "../utilidades/funciones.js";
 
 const ContextoAplicacion = createContext(null);
 
@@ -45,6 +45,21 @@ export function ProveedorAplicacion({ children }) {
       sessionStorage.removeItem(CLAVE_SESION);
     }
   }, [usuarioActual]);
+
+  function guardarConfiguracion(nombre, meta) {
+    if (!usuarioActual) throw new Error("Tenés que iniciar sesión.");
+    const nombreValido = validarNombre(nombre);
+    const metaValida = validarMeta(Number(meta));
+    setDatos((anterior) => ({
+      ...anterior,
+      usuarios: anterior.usuarios.map((item) =>
+        item.id === usuarioActual.id
+          ? { ...item, nombre: nombreValido, meta: metaValida }
+          : item,
+      ),
+    }));
+    setAviso("Guardaste la configuración.");
+  }
 
   function ingresar(correo, contrasena) {
     const usuario = datos.usuarios.find(
@@ -116,6 +131,7 @@ export function ProveedorAplicacion({ children }) {
         salir,
         agregarConsumo,
         eliminarConsumo,
+        guardarConfiguracion,
         aviso,
         setAviso,
         errorGuardado,

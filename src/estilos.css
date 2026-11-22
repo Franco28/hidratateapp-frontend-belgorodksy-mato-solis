@@ -508,6 +508,28 @@ input, select {
   margin-left: auto;
 }
 
+.formulario-configuracion {
+  display: grid;
+  gap: 13px;
+  max-width: 680px;
+}
+
+.formulario-configuracion h2 {
+  margin: 13px 0 0;
+}
+
+.formulario-configuracion h2:first-child {
+  margin-top: 0;
+}
+
+.formulario-configuracion p {
+  margin: 0;
+}
+
+.formulario-configuracion button {
+  justify-self: start;
+}
+
 .pantalla-ingreso {
   min-height: 100vh;
   display: grid;
