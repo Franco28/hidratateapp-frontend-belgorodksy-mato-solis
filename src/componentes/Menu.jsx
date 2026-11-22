@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
+import { Aviso } from "./Aviso.jsx";
 
 export function Menu() {
   const { usuarioActual, salir, errorGuardado } = usarAplicacion();
@@ -19,26 +20,14 @@ export function Menu() {
         </div>
         <p className="subtitulo-menu">REGISTRO DE AGUA</p>
         <nav className="enlaces-menu" aria-label="Menú principal">
-          <NavLink
-            end
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "enlace-menu seleccionado" : "enlace-menu"
-            }
-          >
+          <NavLink end to="/" className={({ isActive }) => isActive ? "enlace-menu seleccionado" : "enlace-menu"}>
             Inicio
           </NavLink>
         </nav>
         <div className="pie-menu">
           <strong>{usuarioActual.nombre}</strong>
-          <small>
-            {usuarioActual.rol === "administrador"
-              ? "Administrador"
-              : "Usuario"}
-          </small>
-          <button type="button" className="boton-salir" onClick={cerrarSesion}>
-            Cerrar sesión
-          </button>
+          <small>{usuarioActual.rol === "administrador" ? "Administrador" : "Usuario"}</small>
+          <button type="button" className="boton-salir" onClick={cerrarSesion}>Cerrar sesión</button>
         </div>
       </aside>
       <div className="contenido-general">
@@ -48,20 +37,11 @@ export function Menu() {
             <strong>HidratateApp</strong>
           </div>
           <span>Hola, {usuarioActual.nombre}</span>
-          <button
-            className="boton-salir boton-salir-movil"
-            type="button"
-            onClick={cerrarSesion}
-          >
-            Salir
-          </button>
+          <button className="boton-salir boton-salir-movil" type="button" onClick={cerrarSesion}>Salir</button>
         </header>
         <main className="contenido">
-          {errorGuardado && (
-            <p className="mensaje-error" role="alert">
-              {errorGuardado}
-            </p>
-          )}
+          {errorGuardado && <p className="mensaje-error" role="alert">{errorGuardado}</p>}
+          <Aviso />
           <Outlet />
         </main>
       </div>

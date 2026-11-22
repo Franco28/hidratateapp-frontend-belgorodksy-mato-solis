@@ -1,9 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import {
-  CLAVE_DATOS,
-  CLAVE_SESION,
-  datosIniciales,
-} from "../datos/datosIniciales.js";
+import { CLAVE_DATOS, CLAVE_SESION, datosIniciales } from "../datos/datosIniciales.js";
+import { fechaLocal, totalDelDia, validarCantidad } from "../utilidades/funciones.js";
 
 const ContextoAplicacion = createContext(null);
 
@@ -24,9 +21,7 @@ function cargarDatos() {
 
 export function ProveedorAplicacion({ children }) {
   const [datos, setDatos] = useState(cargarDatos);
-  const [idSesion, setIdSesion] = useState(() =>
-    sessionStorage.getItem(CLAVE_SESION),
-  );
+  const [idSesion, setIdSesion] = useState(() => sessionStorage.getItem(CLAVE_SESION));
   const [aviso, setAviso] = useState("");
   const [errorGuardado, setErrorGuardado] = useState("");
 
@@ -69,6 +64,37 @@ export function ProveedorAplicacion({ children }) {
     setAviso("");
   }
 
+  function agregarConsumo(cantidad) {
+    if (!usuarioActual) throw new Error("Tenés que iniciar sesión.");
+    validarCantidad(cantidad);
+
+    const totalAnterior = totalDelDia(
+      datos.consumos,
+      usuarioActual.id,
+      fechaLocal(),
+    );
+    const nuevoConsumo = {
+      id: crypto.randomUUID(),
+      idUsuario: usuarioActual.id,
+      cantidad,
+      fecha: new Date().toISOString(),
+    };
+
+    setDatos((anterior) => ({
+      ...anterior,
+      consumos: [nuevoConsumo, ...anterior.consumos],
+    }));
+
+    if (
+      totalAnterior < usuarioActual.meta &&
+      totalAnterior + cantidad >= usuarioActual.meta
+    ) {
+      setAviso("¡Llegaste a tu meta de hoy!");
+    } else {
+      setAviso(`Agregaste ${cantidad} ml.`);
+    }
+  }
+
   return (
     <ContextoAplicacion.Provider
       value={{
@@ -76,6 +102,7 @@ export function ProveedorAplicacion({ children }) {
         usuarioActual,
         ingresar,
         salir,
+        agregarConsumo,
         aviso,
         setAviso,
         errorGuardado,

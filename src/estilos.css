@@ -14,9 +14,7 @@ body {
   min-width: 320px;
 }
 
-button,
-input,
-select {
+button, input, select {
   font: inherit;
 }
 
@@ -25,14 +23,11 @@ button {
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: .5;
   cursor: not-allowed;
 }
 
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
   outline: 3px solid #86baf8;
   outline-offset: 2px;
 }
@@ -42,9 +37,7 @@ a {
   color: inherit;
 }
 
-h1,
-h2,
-p {
+h1, h2, p {
   margin-top: 0;
 }
 
@@ -191,6 +184,19 @@ p {
   letter-spacing: 2px;
 }
 
+.cuadricula-inicio {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(310px, 1fr);
+  gap: 22px;
+}
+
+.columna {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  min-width: 0;
+}
+
 .tarjeta {
   background: #fff;
   border: 1px solid #e3ebf7;
@@ -203,8 +209,66 @@ p {
   margin-bottom: 20px;
 }
 
-input,
-select {
+.tarjeta-resumen {
+  display: grid;
+  gap: 14px;
+}
+
+.tarjeta-resumen small {
+  color: #64748b;
+}
+
+.tarjeta-resumen strong {
+  font-size: 24px;
+  color: #166ec5;
+}
+
+.botones-cantidad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.botones-cantidad button {
+  border: 1px solid #bfdfff;
+  background: #edf6ff;
+  color: #146cc9;
+  border-radius: 12px;
+  padding: 16px 5px;
+  font-weight: bold;
+}
+
+.botones-cantidad button:hover {
+  background: #d8ebff;
+}
+
+.botones-cantidad button {
+  min-height: 70px;
+}
+
+.formulario-cantidad {
+  margin-top: 22px;
+}
+
+.formulario-cantidad label {
+  display: block;
+  margin-bottom: 9px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.fila-formulario {
+  display: flex;
+  gap: 10px;
+}
+
+.fila-formulario input {
+  min-width: 0;
+  flex: 1;
+}
+
+input, select {
   width: 100%;
   border: 1px solid #cad8e9;
   background: #fff;
@@ -225,6 +289,49 @@ select {
 
 .boton-principal:hover {
   background: #0e63b5;
+}
+
+.lista-consumos {
+  padding: 0;
+  margin: 15px 0 0;
+  list-style: none;
+}
+
+.lista-consumos li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #e9f0f8;
+}
+
+.lista-consumos li:last-child {
+  border-bottom: 0;
+}
+
+.lista-consumos li > div {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+}
+
+.lista-consumos small {
+  color: #64748b;
+}
+
+.vaso {
+  background: #e9f5ff;
+  padding: 12px 8px;
+  border-radius: 10px;
+  color: #1976d2;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.sin-registros {
+  text-align: center;
+  color: #697e99;
+  padding: 26px 5px;
 }
 
 .mensaje-error {
@@ -353,87 +460,97 @@ select {
   line-height: 1.5;
 }
 
+@media (max-width: 1100px) {
+.cuadricula-inicio {
+    grid-template-columns: 1fr;
+  }
+
+.columna {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 750px) {
-  .aplicacion {
+.aplicacion {
     display: block;
   }
 
-  .barra-lateral {
+.barra-lateral {
     position: static;
     width: 100%;
     height: auto;
     padding: 15px;
   }
 
-  .barra-lateral > .marca,
-  .barra-lateral > .subtitulo-menu,
-  .pie-menu {
+.barra-lateral > .marca, .barra-lateral > .subtitulo-menu, .pie-menu {
     display: none;
   }
 
-  .enlaces-menu {
+.enlaces-menu {
     display: flex;
     overflow-x: auto;
     gap: 5px;
   }
 
-  .enlace-menu {
+.enlace-menu {
     padding: 10px;
     white-space: nowrap;
     font-size: 14px;
   }
 
-  .marca-movil {
+.marca-movil {
     display: flex;
   }
 
-  .barra-superior {
+.barra-superior {
     justify-content: space-between;
     gap: 10px;
     padding: 12px 18px;
     font-size: 12px;
   }
 
-  .boton-salir-movil {
+.boton-salir-movil {
     display: block;
     padding: 6px;
   }
 
-  .contenido {
+.contenido {
     padding: 20px 15px;
   }
 
-  h1 {
+h1 {
     font-size: 26px;
   }
 
-  .encabezado-pagina {
+.encabezado-pagina {
     align-items: start;
   }
 
-  .tarjeta {
+.tarjeta {
     padding: 17px;
   }
 
-  .pantalla-ingreso {
+.botones-cantidad {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+.pantalla-ingreso {
     grid-template-columns: 1fr;
   }
 
-  .presentacion-ingreso {
+.presentacion-ingreso {
     padding: 24px;
   }
 
-  .presentacion-ingreso h1,
-  .presentacion-ingreso p,
-  .ilustracion-ingreso {
+.presentacion-ingreso h1, .presentacion-ingreso p, .ilustracion-ingreso {
     display: none;
   }
 
-  .sector-ingreso {
+.sector-ingreso {
     padding: 25px 15px;
   }
 
-  .tarjeta-ingreso {
+.tarjeta-ingreso {
     padding: 25px;
   }
 }

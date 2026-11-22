@@ -15,13 +15,7 @@ export function Aplicacion() {
     <BrowserRouter>
       <Routes>
         <Route path="/ingreso" element={<Ingreso />} />
-        <Route
-          element={
-            <RutaPrivada>
-              <Menu />
-            </RutaPrivada>
-          }
-        >
+        <Route element={<RutaPrivada><Menu /></RutaPrivada>}>
           <Route index element={<Inicio />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
