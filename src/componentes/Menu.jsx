@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
 import { Aviso } from "./Aviso.jsx";
+import { mostrarError } from "../utilidades/notificaciones.js";
 
 export function Menu() {
   const { usuarioActual, salir, errorGuardado, setAviso } = usarAplicacion();
@@ -16,6 +17,10 @@ export function Menu() {
     }, usuarioActual.minutosRecordatorio * 60 * 1000);
     return () => clearInterval(intervalo);
   }, [usuarioActual.recordatorios, usuarioActual.minutosRecordatorio, setAviso]);
+
+  useEffect(() => {
+    if (errorGuardado) mostrarError(errorGuardado);
+  }, [errorGuardado]);
 
   function cerrarSesion() {
     salir();
@@ -62,7 +67,6 @@ export function Menu() {
           <button className="boton-salir boton-salir-movil" type="button" onClick={cerrarSesion}>Salir</button>
         </header>
         <main className="contenido">
-          {errorGuardado && <p className="mensaje-error" role="alert">{errorGuardado}</p>}
           <Aviso />
           <Outlet />
         </main>

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
+import { mostrarError } from "../utilidades/notificaciones.js";
 
 export function Ingreso() {
   const { usuarioActual, ingresar } = usarAplicacion();
   const navegar = useNavigate();
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [error, setError] = useState("");
 
   if (usuarioActual) return <Navigate to="/" replace />;
 
@@ -16,7 +16,7 @@ export function Ingreso() {
     if (ingresar(correo, contrasena)) {
       navegar("/");
     } else {
-      setError("Correo o contraseña incorrectos, o cuenta desactivada.");
+      mostrarError("Correo o contraseña incorrectos, o cuenta desactivada.");
     }
   }
 
@@ -28,7 +28,6 @@ export function Ingreso() {
       setCorreo("usuario@hidratate.app");
       setContrasena("Usuario123!");
     }
-    setError("");
   }
 
   return (
@@ -67,11 +66,6 @@ export function Ingreso() {
               onChange={(evento) => setContrasena(evento.target.value)}
               required
             />
-            {error && (
-              <p className="mensaje-error" role="alert">
-                {error}
-              </p>
-            )}
             <button type="submit" className="boton-principal">
               Ingresar
             </button>

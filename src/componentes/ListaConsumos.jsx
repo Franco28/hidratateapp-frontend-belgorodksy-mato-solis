@@ -1,15 +1,20 @@
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
 import { mostrarHora, mostrarMililitros } from "../utilidades/funciones.js";
+import { confirmarEliminacion, mostrarError } from "../utilidades/notificaciones.js";
 
 export function ListaConsumos({ consumos, titulo = "Consumos registrados" }) {
   const { eliminarConsumo } = usarAplicacion();
 
-  function quitarConsumo(id) {
-    if (!window.confirm("¿Querés eliminar este consumo?")) return;
-    eliminarConsumo(id);
-    const sonido = new Audio("/audio/agua_eliminar.wav");
-    sonido.volume = 0.2;
-    sonido.play().catch(() => {});
+  async function quitarConsumo(id) {
+    if (!(await confirmarEliminacion("Se eliminará este consumo."))) return;
+    try {
+      eliminarConsumo(id);
+      const sonido = new Audio("/audio/agua_eliminar.wav");
+      sonido.volume = 0.2;
+      sonido.play().catch(() => {});
+    } catch (problema) {
+      mostrarError(problema.message);
+    }
   }
 
   return (

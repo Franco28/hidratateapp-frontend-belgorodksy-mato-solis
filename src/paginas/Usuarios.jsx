@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
+import { confirmarEliminacion, mostrarError } from "../utilidades/notificaciones.js";
 
 const formularioVacio = {
   nombre: "",
@@ -21,7 +22,6 @@ export function Usuarios() {
   const [formulario, setFormulario] = useState({ ...formularioVacio });
   const [idEdicion, setIdEdicion] = useState(null);
   const [formularioVisible, setFormularioVisible] = useState(false);
-  const [error, setError] = useState("");
 
   const usuariosFiltrados = datos.usuarios.filter(
     (usuario) =>
@@ -37,7 +37,6 @@ export function Usuarios() {
     setFormulario({ ...formularioVacio });
     setIdEdicion(null);
     setFormularioVisible(false);
-    setError("");
   }
 
   function nuevoUsuario() {
@@ -55,7 +54,6 @@ export function Usuarios() {
     });
     setIdEdicion(usuario.id);
     setFormularioVisible(true);
-    setError("");
   }
 
   function guardarUsuario(evento) {
@@ -68,20 +66,19 @@ export function Usuarios() {
       }
       cerrarFormulario();
     } catch (problema) {
-      setError(problema.message);
+      mostrarError(problema.message);
     }
   }
 
-  function quitarUsuario(usuario) {
-    const confirmado = window.confirm(
-      `¿Eliminar a ${usuario.nombre} y todos sus consumos?`,
+  async function quitarUsuario(usuario) {
+    const confirmado = await confirmarEliminacion(
+      `Se eliminará a ${usuario.nombre} y todos sus consumos.`,
     );
     if (!confirmado) return;
     try {
       eliminarUsuario(usuario.id);
-      setError("");
     } catch (problema) {
-      setError(problema.message);
+      mostrarError(problema.message);
     }
   }
 
@@ -191,11 +188,6 @@ export function Usuarios() {
         </section>
       )}
 
-      {error && (
-        <p className="mensaje-error espacio-inferior" role="alert">
-          {error}
-        </p>
-      )}
       <section className="tarjeta">
         <div className="titulo-con-busqueda">
           <div>
