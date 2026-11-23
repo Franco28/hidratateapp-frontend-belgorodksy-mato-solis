@@ -1,10 +1,21 @@
+import { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { usarAplicacion } from "../contexto/ContextoAplicacion.jsx";
 import { Aviso } from "./Aviso.jsx";
 
 export function Menu() {
-  const { usuarioActual, salir, errorGuardado } = usarAplicacion();
+  const { usuarioActual, salir, errorGuardado, setAviso } = usarAplicacion();
   const navegar = useNavigate();
+
+  useEffect(() => {
+    if (!usuarioActual.recordatorios) return;
+    const intervalo = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        setAviso("Recordatorio: acordate de tomar agua.");
+      }
+    }, usuarioActual.minutosRecordatorio * 60 * 1000);
+    return () => clearInterval(intervalo);
+  }, [usuarioActual.recordatorios, usuarioActual.minutosRecordatorio, setAviso]);
 
   function cerrarSesion() {
     salir();

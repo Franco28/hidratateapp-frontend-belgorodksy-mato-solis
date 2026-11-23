@@ -526,6 +526,21 @@ input, select {
   margin: 0;
 }
 
+.opcion-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: normal !important;
+}
+
+.opcion-checkbox input {
+  width: auto;
+}
+
+.nota {
+  font-size: 13px;
+}
+
 .formulario-configuracion button {
   justify-self: start;
 }

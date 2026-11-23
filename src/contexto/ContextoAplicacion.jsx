@@ -46,21 +46,6 @@ export function ProveedorAplicacion({ children }) {
     }
   }, [usuarioActual]);
 
-  function guardarConfiguracion(nombre, meta) {
-    if (!usuarioActual) throw new Error("Tenés que iniciar sesión.");
-    const nombreValido = validarNombre(nombre);
-    const metaValida = validarMeta(Number(meta));
-    setDatos((anterior) => ({
-      ...anterior,
-      usuarios: anterior.usuarios.map((item) =>
-        item.id === usuarioActual.id
-          ? { ...item, nombre: nombreValido, meta: metaValida }
-          : item,
-      ),
-    }));
-    setAviso("Guardaste la configuración.");
-  }
-
   function ingresar(correo, contrasena) {
     const usuario = datos.usuarios.find(
       (item) =>
@@ -120,6 +105,32 @@ export function ProveedorAplicacion({ children }) {
       consumos: anterior.consumos.filter((item) => item.id !== id),
     }));
     setAviso("Eliminaste un consumo.");
+  }
+
+  function guardarConfiguracion(nombre, meta, recordatorios, minutos) {
+    if (!usuarioActual) throw new Error("Tenés que iniciar sesión.");
+    const nombreValido = validarNombre(nombre);
+    const metaValida = validarMeta(Number(meta));
+    const minutosValidos = Number(minutos);
+    if (![30, 60, 120].includes(minutosValidos)) {
+      throw new Error("Seleccioná una frecuencia válida.");
+    }
+
+    setDatos((anterior) => ({
+      ...anterior,
+      usuarios: anterior.usuarios.map((item) =>
+        item.id === usuarioActual.id
+          ? {
+              ...item,
+              nombre: nombreValido,
+              meta: metaValida,
+              recordatorios,
+              minutosRecordatorio: minutosValidos,
+            }
+          : item,
+      ),
+    }));
+    setAviso("Guardaste la configuración.");
   }
 
   return (
