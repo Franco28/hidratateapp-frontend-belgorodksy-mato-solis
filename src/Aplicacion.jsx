@@ -5,10 +5,14 @@ import { Ingreso } from "./paginas/Ingreso.jsx";
 import { Inicio } from "./paginas/Inicio.jsx";
 import { Historial } from "./paginas/Historial.jsx";
 import { Configuracion } from "./paginas/Configuracion.jsx";
+import { Usuarios } from "./paginas/Usuarios.jsx";
 
-function RutaPrivada({ children }) {
+function RutaPrivada({ children, soloAdministrador = false }) {
   const { usuarioActual } = usarAplicacion();
   if (!usuarioActual) return <Navigate to="/ingreso" replace />;
+  if (soloAdministrador && usuarioActual.rol !== "administrador") {
+    return <Navigate to="/" replace />;
+  }
   return children;
 }
 
@@ -21,6 +25,7 @@ export function Aplicacion() {
           <Route index element={<Inicio />} />
           <Route path="historial" element={<Historial />} />
           <Route path="configuracion" element={<Configuracion />} />
+          <Route path="usuarios" element={<RutaPrivada soloAdministrador><Usuarios /></RutaPrivada>} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

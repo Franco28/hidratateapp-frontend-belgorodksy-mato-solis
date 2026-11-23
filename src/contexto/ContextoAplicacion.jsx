@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { CLAVE_DATOS, CLAVE_SESION, datosIniciales } from "../datos/datosIniciales.js";
-import { fechaLocal, totalDelDia, validarCantidad, validarMeta, validarNombre } from "../utilidades/funciones.js";
+import { CLAVE_DATOS, CLAVE_SESION, datosIniciales, META_INICIAL } from "../datos/datosIniciales.js";
+import { fechaLocal, totalDelDia, validarCantidad, validarMeta, validarNombre, validarContrasena, validarCorreo } from "../utilidades/funciones.js";
 
 const ContextoAplicacion = createContext(null);
 
@@ -133,6 +133,132 @@ export function ProveedorAplicacion({ children }) {
     setAviso("Guardaste la configuración.");
   }
 
+  function verificarAdministrador() {
+    if (usuarioActual?.rol !== "administrador") {
+      throw new Error("Esta opción es solo para administradores.");
+    }
+  }
+
+  function validarUsuario(nombre, correo, rol) {
+    const nombreValido = validarNombre(nombre);
+    const correoValido = validarCorreo(correo);
+    if (rol !== "usuario" && rol !== "administrador") {
+      throw new Error("Seleccioná un rol válido.");
+    }
+    return { nombre: nombreValido, correo: correoValido, rol };
+  }
+
+  function crearUsuario(formulario) {
+    verificarAdministrador();
+    const usuarioValidado = validarUsuario(
+      formulario.nombre,
+      formulario.correo,
+      formulario.rol,
+    );
+    validarContrasena(formulario.contrasena);
+    if (datos.usuarios.some((item) => item.correo === usuarioValidado.correo)) {
+      throw new Error("Ya existe un usuario con ese correo.");
+    }
+
+    const nuevoUsuario = {
+      id: crypto.randomUUID(),
+      ...usuarioValidado,
+      contrasena: formulario.contrasena,
+      activo: true,
+      meta: META_INICIAL,
+      recordatorios: false,
+      minutosRecordatorio: 60,
+    };
+    setDatos((anterior) => ({
+      ...anterior,
+      usuarios: [...anterior.usuarios, nuevoUsuario],
+    }));
+    setAviso("Creaste un usuario.");
+  }
+
+  function modificarUsuario(id, formulario) {
+    verificarAdministrador();
+    const usuario = datos.usuarios.find((item) => item.id === id);
+    if (!usuario) throw new Error("No se encontró el usuario.");
+
+    const usuarioValidado = validarUsuario(
+      formulario.nombre,
+      formulario.correo,
+      formulario.rol,
+    );
+    if (
+      datos.usuarios.some(
+        (item) => item.id !== id && item.correo === usuarioValidado.correo,
+      )
+    ) {
+      throw new Error("Ese correo ya está registrado.");
+    }
+    if (
+      id === usuarioActual.id &&
+      (!formulario.activo || formulario.rol !== "administrador")
+    ) {
+      throw new Error(
+        "No podés desactivar tu cuenta ni cambiar tu propio rol.",
+      );
+    }
+
+    const administradores = datos.usuarios.filter(
+      (item) => item.rol === "administrador" && item.activo,
+    );
+    if (
+      usuario.rol === "administrador" &&
+      usuario.activo &&
+      administradores.length === 1 &&
+      (formulario.rol !== "administrador" || !formulario.activo)
+    ) {
+      throw new Error("Debe quedar al menos un administrador activo.");
+    }
+
+    let contrasena = usuario.contrasena;
+    if (formulario.contrasena !== "") {
+      contrasena = validarContrasena(formulario.contrasena);
+    }
+
+    setDatos((anterior) => ({
+      ...anterior,
+      usuarios: anterior.usuarios.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              ...usuarioValidado,
+              contrasena,
+              activo: formulario.activo,
+            }
+          : item,
+      ),
+    }));
+    setAviso("Actualizaste el usuario.");
+  }
+
+  function eliminarUsuario(id) {
+    verificarAdministrador();
+    if (id === usuarioActual.id)
+      throw new Error("No podés eliminar tu propia cuenta.");
+    const usuario = datos.usuarios.find((item) => item.id === id);
+    if (!usuario) throw new Error("No se encontró el usuario.");
+
+    const administradores = datos.usuarios.filter(
+      (item) => item.rol === "administrador" && item.activo,
+    );
+    if (
+      usuario.rol === "administrador" &&
+      usuario.activo &&
+      administradores.length === 1
+    ) {
+      throw new Error("Debe quedar al menos un administrador activo.");
+    }
+    setDatos((anterior) => ({
+      usuarios: anterior.usuarios.filter((item) => item.id !== id),
+      consumos: anterior.consumos.filter((item) => item.idUsuario !== id),
+    }));
+    setAviso("Eliminaste el usuario y sus registros.");
+  }
+
   return (
     <ContextoAplicacion.Provider
       value={{
@@ -143,6 +269,9 @@ export function ProveedorAplicacion({ children }) {
         agregarConsumo,
         eliminarConsumo,
         guardarConfiguracion,
+        crearUsuario,
+        modificarUsuario,
+        eliminarUsuario,
         aviso,
         setAviso,
         errorGuardado,

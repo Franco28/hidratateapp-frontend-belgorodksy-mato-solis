@@ -360,6 +360,14 @@ input, select {
   background: #0e63b5;
 }
 
+.boton-secundario {
+  border: 1px solid #dbe5f3;
+  background: #f0f5fb;
+  padding: 9px 13px;
+  border-radius: 8px;
+  color: #445e7d;
+}
+
 .boton-eliminar {
   border: 0;
   background: #ffeaf0;
@@ -526,6 +534,11 @@ input, select {
   margin: 0;
 }
 
+.formulario-configuracion label, .campo label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .opcion-checkbox {
   display: flex;
   align-items: center;
@@ -543,6 +556,76 @@ input, select {
 
 .formulario-configuracion button {
   justify-self: start;
+}
+
+.formulario-usuarios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px;
+  margin-top: 20px;
+}
+
+.campo {
+  display: grid;
+  gap: 8px;
+}
+
+.acciones-formulario {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+}
+
+.titulo-con-busqueda {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.titulo-con-busqueda p {
+  margin: 0;
+}
+
+.titulo-con-busqueda input {
+  max-width: 330px;
+}
+
+.tabla-desplazable {
+  overflow-x: auto;
+}
+
+.tabla-usuarios {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tabla-usuarios th {
+  color: #60748d;
+  font-size: 13px;
+  background: #f4f8ff;
+}
+
+.tabla-usuarios th, .tabla-usuarios td {
+  padding: 15px;
+  border-bottom: 1px solid #e7edf6;
+}
+
+.tabla-usuarios td:first-child strong, .tabla-usuarios td:first-child small {
+  display: block;
+}
+
+.tabla-usuarios td:first-child small {
+  margin-top: 5px;
+  color: #64748b;
+}
+
+.acciones-tabla {
+  display: flex;
+  gap: 8px;
 }
 
 .pantalla-ingreso {
@@ -734,6 +817,27 @@ h1 {
 
 .resumen-doble {
     grid-template-columns: 1fr 1fr;
+  }
+
+.formulario-usuarios {
+    grid-template-columns: 1fr;
+  }
+
+.acciones-formulario {
+    grid-column: auto;
+  }
+
+.titulo-con-busqueda {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+.titulo-con-busqueda input {
+    max-width: none;
+  }
+
+.tabla-usuarios {
+    min-width: 590px;
   }
 
 .pantalla-ingreso {

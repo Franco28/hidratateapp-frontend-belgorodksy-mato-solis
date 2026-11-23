@@ -40,6 +40,11 @@ export function Menu() {
           <NavLink to="/configuracion" className={({ isActive }) => isActive ? "enlace-menu seleccionado" : "enlace-menu"}>
             Configuración
           </NavLink>
+          {usuarioActual.rol === "administrador" && (
+            <NavLink to="/usuarios" className={({ isActive }) => isActive ? "enlace-menu seleccionado" : "enlace-menu"}>
+              Usuarios
+            </NavLink>
+          )}
         </nav>
         <div className="pie-menu">
           <strong>{usuarioActual.nombre}</strong>

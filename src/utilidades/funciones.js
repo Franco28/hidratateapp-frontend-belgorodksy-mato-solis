@@ -61,3 +61,18 @@ export function validarNombre(nombre) {
   }
   return texto;
 }
+
+export function validarCorreo(correo) {
+  const texto = String(correo).trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(texto) || texto.length > 120) {
+    throw new Error("Ingresá un correo electrónico válido.");
+  }
+  return texto;
+}
+
+export function validarContrasena(contrasena) {
+  if (String(contrasena).length < 8) {
+    throw new Error("La contraseña debe tener al menos 8 caracteres.");
+  }
+  return contrasena;
+}
